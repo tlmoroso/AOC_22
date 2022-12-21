@@ -1,3 +1,8 @@
+use aoc_22::parser::args::Args;
+use clap::Parser;
+
 fn main() {
-    println!("Hello, world!");
+    let args = Args::parse();
+
+    println!("Running Day {}...", args.day)
 }
