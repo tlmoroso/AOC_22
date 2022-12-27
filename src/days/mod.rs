@@ -1,8 +1,9 @@
 pub mod day1;
+pub mod day1a;
 
 use thiserror::Error;
 
-use self::day1::Day1;
+use self::{day1::Day1, day1a::Day1a};
 
 pub type DayResult = Result<String, DayError>;
 
@@ -24,6 +25,7 @@ pub trait DaySolution {
 pub fn solve_day(day: u8, advanced: bool) -> DayResult {
     match (day, advanced) {
         (1, false) => Day1::solve(),
+        (1, true) => Day1a::solve(),
         _ => Err(DayError::InvalidDay { day })
     }
 }

@@ -47,7 +47,7 @@ impl DaySolution for Day1 {
     }
 }
 
-struct Parser;
+pub(super) struct Parser;
 
 impl Parser {
     pub fn parse<P: AsRef<Path>>(path: P) -> Result<Vec<Vec<u32>>, Day1Error> {
@@ -117,7 +117,7 @@ impl Parser {
 }
 
 #[derive(Error, Debug)]
-enum Day1Error {
+pub(super) enum Day1Error {
     #[error("Unable to read file: {file_name} to String")]
     FileToStringError {
         file_name: String,
