@@ -46,8 +46,8 @@ impl DaySolution for Day2 {
     }
 }
 
-#[derive(Clone, Copy)]
-enum RPS {
+#[derive(Clone, Copy, Hash, PartialEq, Eq, Debug)]
+pub(super) enum RPS {
     Rock,
     Paper,
     Scissors
@@ -102,7 +102,8 @@ impl RPS {
     }
 }
 
-enum RPSResult {
+#[derive(Hash, PartialEq, Eq, Debug, Clone, Copy)]
+pub(super) enum RPSResult {
     Win,
     Loss,
     Draw
@@ -116,14 +117,23 @@ impl RPSResult {
             RPSResult::Draw => 3
         }
     }
+
+    pub fn from_char(symbol: &char) -> Option<Self> {
+        Some(match symbol {
+            'X' => RPSResult::Loss,
+            'Y' => RPSResult::Draw,
+            'Z' => RPSResult::Win,
+            _ => return None
+        })
+    }
 }
 
-struct RPSRound {
+pub(super) struct RPSRound {
     pub player_option: RPS,
     pub opponent_option: RPS
 }
 
-struct Parser;
+pub(super) struct Parser;
 
 impl Parser {
     pub fn parse<P: AsRef<Path>>(path: P) -> Result<Vec<RPSRound>, Day2Error> {
@@ -176,7 +186,7 @@ impl Parser {
         rounds(input)
     }
 
-    fn rps_from_char(input: char) -> Result<RPS, nom::error::Error<char>> {
+    pub(super) fn rps_from_char(input: char) -> Result<RPS, nom::error::Error<char>> {
         RPS::from_char(&input)
         .ok_or(nom::error::Error{ 
             input: input, 
@@ -207,5 +217,17 @@ pub(super) enum Day2Error {
     #[error("Failed to parse rounds of RPS")]
     ParseRPSRoundsError {
         source: nom::Err<nom::error::Error<String>>
+    },
+    #[error("Failed to parse strategies")]
+    ParseRPSStrategyError {
+        source: nom::Err<nom::error::Error<String>>
+    },
+    #[error("Get() returned None when accessing map of options to outcomes with Key: {key:?}")]
+    RPSMapAccessError {
+        key: RPS
+    },
+    #[error("Get() returned None when accessing map of outcomes to options with Key: {key:?}")]
+    RPSResultMapAccessError {
+        key: RPSResult
     }
 }

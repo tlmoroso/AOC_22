@@ -1,10 +1,11 @@
 pub mod day1;
 pub mod day1a;
 pub mod day2;
+pub mod day2a;
 
 use thiserror::Error;
 
-use self::{day1::Day1, day1a::Day1a, day2::Day2};
+use self::{day1::Day1, day1a::Day1a, day2::Day2, day2a::Day2a};
 
 pub type DayResult = Result<String, DayError>;
 
@@ -28,6 +29,7 @@ pub fn solve_day(day: u8, advanced: bool) -> DayResult {
         (1, false) => Day1::solve(),
         (1, true) => Day1a::solve(),
         (2, false) => Day2::solve(),
+        (2, true) => Day2a::solve(),
         _ => Err(DayError::InvalidDay { day })
     }
 }
